@@ -1,97 +1,62 @@
 "use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
-export default function Home() {
+export default function LoginPage() {
+  const [codigo, setCodigo] = useState("");
+  const [error, setError] = useState(false);
   const router = useRouter();
-  const [mostrarPin, setMostrarPin] = useState(false);
-  const [pin, setPin] = useState('');
-  const [cargando, setCargando] = useState(false);
-  const [errorPin, setErrorPin] = useState('');
 
-  const validarAcceso = async () => {
-    if (pin.length !== 4) return;
-    
-    setCargando(true);
-    setErrorPin('');
+  const manejarIngreso = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(false);
 
-    // Buscamos al usuario en la base de datos por su PIN
+    // Buscamos en la tabla de invitados de Supabase el PIN ingresado
     const { data, error } = await supabase
-      .from('invitados')
-      .select('*')
-      .eq('pin_acceso', pin)
+      .from("invitados")
+      .select("*")
+      .eq("pin", codigo)
       .single();
 
     if (error || !data) {
-      setErrorPin('Código incorrecto. Verificá tu invitación.');
-      setPin('');
-      setCargando(false);
+      setError(true);
     } else {
-      // Guardamos los datos del usuario en el navegador
-      localStorage.setItem('invitado_boda', JSON.stringify(data));
-      
-      // REDIRECCIÓN INTELIGENTE SEGÚN EL ROL
-      if (data.es_anfitrion) {
-        router.push('/admin'); // Panel de control de los novios
-      } else {
-        router.push('/evento'); // Invitación interactiva
-      }
+      // Guardamos los datos del invitado en el navegador y lo mandamos al evento
+      localStorage.setItem("invitado_boda", JSON.stringify(data));
+      router.push("/evento");
     }
   };
 
   return (
-    <main className="min-h-screen bg-stone-100 flex flex-col items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-3xl shadow-xl text-center max-w-sm w-full border border-stone-200">
-        <h1 className="text-4xl font-serif text-stone-800 mb-2">Demian & Barbara</h1>
-        <p className="text-stone-500 mb-8 uppercase tracking-widest text-sm">¡Nos casamos!</p>
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfaf7', color: '#5d4a3a', padding: '20px' }}>
+      <div className="tarjeta-invitacion" style={{ maxWidth: '400px', width: '100%', textAlign: 'center' }}>
+        <h1 className="titulo-serif" style={{ fontSize: '2.5rem', marginBottom: '10px' }}>Demián & Belén</h1>
+        <p style={{ fontStyle: 'italic', marginBottom: '20px' }}>¡Nos casamos!</p>
         
-        {!mostrarPin ? (
+        <form onSubmit={manejarIngreso}>
+          <p style={{ fontSize: '0.9rem', marginBottom: '10px' }}>Ingresá tu código de 4 dígitos</p>
+          <input 
+            type="password" 
+            maxLength={4}
+            value={codigo} 
+            onChange={(e) => setCodigo(e.target.value)}
+            style={{ padding: '10px', fontSize: '1.2rem', textAlign: 'center', width: '120px', letterSpacing: '5px', borderRadius: '6px', border: '1px solid #d2b48c', outline: 'none', marginBottom: '15px' }}
+          />
+          
+          {error && (
+            <p style={{ color: '#b22222', fontSize: '0.85rem', marginBottom: '15px' }}>
+              Código incorrecto. Verificá tu invitación.
+            </p>
+          )}
+
           <div>
-            <div className="bg-stone-50 p-6 rounded-2xl border border-stone-100 mb-8">
-              <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-2">Faltan</p>
-              <span className="text-5xl font-light text-stone-800">120</span>
-              <p className="text-xs text-stone-400 uppercase tracking-widest mt-2">Días</p>
-            </div>
-            <button 
-              onClick={() => setMostrarPin(true)}
-              className="w-full bg-stone-800 text-white py-3 rounded-full font-medium hover:bg-stone-700 transition-colors"
-            >
-              Ingresar con mi PIN
+            <button type="submit" className="btn-boda">
+              Entrar
             </button>
           </div>
-        ) : (
-          <div>
-            <div className="bg-stone-50 p-6 rounded-2xl border border-stone-100 mb-6">
-              <p className="text-sm text-stone-600 mb-4 font-medium">Ingresá tu código de 4 dígitos</p>
-              <input 
-                type="password" 
-                maxLength={4}
-                value={pin}
-                onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
-                className="w-full text-center text-3xl tracking-[0.5em] p-4 rounded-xl border border-stone-200 focus:border-stone-800 outline-none bg-white font-mono"
-                placeholder="••••"
-              />
-              {errorPin && <p className="text-red-500 text-xs mt-3 font-medium">{errorPin}</p>}
-            </div>
-            <div className="flex gap-3">
-              <button 
-                onClick={() => { setMostrarPin(false); setErrorPin(''); }}
-                className="flex-1 bg-stone-200 text-stone-600 py-3 rounded-full font-medium hover:bg-stone-300"
-              >
-                Volver
-              </button>
-              <button 
-                onClick={validarAcceso}
-                className="flex-1 bg-stone-800 text-white py-3 rounded-full font-medium hover:bg-stone-700 disabled:opacity-50"
-                disabled={pin.length < 4 || cargando}
-              >
-                {cargando ? '...' : 'Entrar'}
-              </button>
-            </div>
-          </div>
-        )}
+        </form>
       </div>
     </main>
   );
