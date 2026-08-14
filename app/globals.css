@@ -1,26 +1,143 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Montserrat:wght@300;400;600&display=swap');
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Reset general */
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fcfaf7; /* Fondo crema manteca */
+  color: #5d4a3a; /* Ocre oscuro */
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Tipografía elegante estilo casamiento */
+.titulo-serif {
+  font-family: 'Playfair Display', serif;
+  color: #5d4a3a;
+}
+
+/* Contenedor principal estilo invitación física */
+.tarjeta-invitacion {
+  max-width: 420px;
+  width: 100%;
+  background-color: #fffaf5;
+  border: 2px solid #d2b48c;
+  outline: 6px double #d2b48c;
+  outline-offset: -10px;
+  margin: 20px auto;
+  padding: 30px 20px;
+  box-shadow: 0 10px 30px rgba(93, 74, 58, 0.08);
+  text-align: center;
+  border-radius: 4px;
+}
+
+/* Botones personalizados */
+.btn-boda {
+  background-color: #a0522d; /* Tono bronce / ocre tostado */
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px;
+  transition: background 0.3s ease;
+}
+
+.btn-boda:hover {
+  background-color: #5d4a3a;
+}
+
+/* Botón flotante de WhatsApp */
+.whatsapp-flotante {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 100;
+  transition: transform 0.2s;
+}
+
+.whatsapp-flotante:hover {
+  transform: scale(1.05);
+}
+
+/* Ocultar barra de desplazamiento */
+.sin-scroll::-webkit-scrollbar {
+  display: none;
+}
+.sin-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+/* Contenedor de Slides */
+.snap-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.slide {
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Marco al óleo (Fileteado) */
+.marco-invitacion {
+  border: 15px solid transparent;
+  border-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNhMDUyMmQiIHN0cm9rZS13aWR0aD0iMiI+PHBhdGggZD0iTTAgMGgzMDB2MzAwSDB6Ii8+PC9nPjwvc3ZnPg==") 30 round;
+  margin: 10px;
+  background: #fffaf5;
+}
+
+/* Indicador de deslizar */
+.indicador-deslizar {
+  position: absolute;
+  bottom: 30px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-10px);}
+}
+/* Pétalos que caen */
+.petalos-container {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.petalo {
+  position: absolute;
+  background: #f8d7da; /* Color pétalo */
+  width: 10px; height: 10px;
+  border-radius: 50% 0;
+  animation: caer linear infinite;
+}
+
+@keyframes caer {
+  0% { transform: translateY(-10vh) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
 }

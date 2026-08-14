@@ -1,69 +1,98 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 export default function Home() {
+  const router = useRouter();
+  const [mostrarPin, setMostrarPin] = useState(false);
+  const [pin, setPin] = useState('');
+  const [cargando, setCargando] = useState(false);
+  const [errorPin, setErrorPin] = useState('');
+
+  const validarAcceso = async () => {
+    if (pin.length !== 4) return;
+    
+    setCargando(true);
+    setErrorPin('');
+
+    // Buscamos al usuario en la base de datos por su PIN
+    const { data, error } = await supabase
+      .from('invitados')
+      .select('*')
+      .eq('pin_acceso', pin)
+      .single();
+
+    if (error || !data) {
+      setErrorPin('Código incorrecto. Verificá tu invitación.');
+      setPin('');
+      setCargando(false);
+    } else {
+      // Guardamos los datos del usuario en el navegador
+      localStorage.setItem('invitado_boda', JSON.stringify(data));
+      
+      // REDIRECCIÓN INTELIGENTE SEGÚN EL ROL
+      if (data.es_anfitrion) {
+        router.push('/admin'); // Panel de control de los novios
+      } else {
+        router.push('/evento'); // Invitación interactiva
+      }
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="min-h-screen bg-stone-100 flex flex-col items-center justify-center p-4">
+      <div className="bg-white p-8 rounded-3xl shadow-xl text-center max-w-sm w-full border border-stone-200">
+        <h1 className="text-4xl font-serif text-stone-800 mb-2">Demian & Barbara</h1>
+        <p className="text-stone-500 mb-8 uppercase tracking-widest text-sm">¡Nos casamos!</p>
+        
+        {!mostrarPin ? (
+          <div>
+            <div className="bg-stone-50 p-6 rounded-2xl border border-stone-100 mb-8">
+              <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-2">Faltan</p>
+              <span className="text-5xl font-light text-stone-800">120</span>
+              <p className="text-xs text-stone-400 uppercase tracking-widest mt-2">Días</p>
+            </div>
+            <button 
+              onClick={() => setMostrarPin(true)}
+              className="w-full bg-stone-800 text-white py-3 rounded-full font-medium hover:bg-stone-700 transition-colors"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+              Ingresar con mi PIN
+            </button>
+          </div>
+        ) : (
+          <div>
+            <div className="bg-stone-50 p-6 rounded-2xl border border-stone-100 mb-6">
+              <p className="text-sm text-stone-600 mb-4 font-medium">Ingresá tu código de 4 dígitos</p>
+              <input 
+                type="password" 
+                maxLength={4}
+                value={pin}
+                onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
+                className="w-full text-center text-3xl tracking-[0.5em] p-4 rounded-xl border border-stone-200 focus:border-stone-800 outline-none bg-white font-mono"
+                placeholder="••••"
+              />
+              {errorPin && <p className="text-red-500 text-xs mt-3 font-medium">{errorPin}</p>}
+            </div>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => { setMostrarPin(false); setErrorPin(''); }}
+                className="flex-1 bg-stone-200 text-stone-600 py-3 rounded-full font-medium hover:bg-stone-300"
+              >
+                Volver
+              </button>
+              <button 
+                onClick={validarAcceso}
+                className="flex-1 bg-stone-800 text-white py-3 rounded-full font-medium hover:bg-stone-700 disabled:opacity-50"
+                disabled={pin.length < 4 || cargando}
+              >
+                {cargando ? '...' : 'Entrar'}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }

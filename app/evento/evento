@@ -1,0 +1,45 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+export default function EventoLayout() {
+  const router = useRouter();
+  const [nombreInvitado, setNombreInvitado] = useState("");
+
+  useEffect(() => {
+    // Al entrar, verificamos si hay un usuario guardado
+    const usuarioGuardado = localStorage.getItem("invitado_boda");
+    if (!usuarioGuardado) {
+      // Si entró acá sin poner el PIN, lo pateamos al inicio
+      router.push("/");
+    } else {
+      const datos = JSON.parse(usuarioGuardado);
+      setNombreInvitado(datos.nombre);
+    }
+  }, [router]);
+
+  if (!nombreInvitado) return <div className="min-h-screen bg-stone-900 flex items-center justify-center text-white">Cargando la magia...</div>;
+
+  return (
+    <main className="h-[100dvh] bg-stone-900 text-white overflow-hidden relative flex flex-col">
+      {/* HEADER DE LA APP */}
+      <header className="p-4 flex justify-between items-center z-10">
+        <h2 className="font-serif text-xl">D & B</h2>
+        <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">
+          <div className="w-6 h-6 rounded-full bg-stone-400 overflow-hidden" />
+          <span className="text-sm font-medium">{nombreInvitado}</span>
+        </div>
+      </header>
+
+      {/* CONTENEDOR DE SLIDES (Próximo paso) */}
+      <div className="flex-1 flex items-center justify-center p-4 z-10">
+        <div className="text-center">
+          <p className="text-stone-400 tracking-widest uppercase text-xs mb-2">Bienvenido/a</p>
+          <h1 className="text-4xl font-serif">{nombreInvitado}</h1>
+          <p className="mt-4 text-stone-300 font-light">Deslizá para ver las opciones</p>
+        </div>
+      </div>
+    </main>
+  );
+}
