@@ -19,12 +19,12 @@ body {
   color: #5d4a3a;
 }
 
-/* Contenedor principal estilo invitación física (Semistransparente para ver el collage) */
+/* Contenedor principal estilo invitación física (Más transparente para que se luzca el collage) */
 .tarjeta-invitacion {
   max-width: 420px;
   width: 100%;
-  background-color: rgba(255, 250, 245, 0.82) !important;
-  backdrop-filter: blur(8px);
+  background-color: rgba(255, 250, 245, 0.7) !important;
+  backdrop-filter: blur(5px);
   border: 2px solid #d2b48c;
   outline: 6px double #d2b48c;
   outline-offset: -10px;
@@ -173,8 +173,8 @@ body {
 
 @keyframes cambiarImagen {
   0% { opacity: 0; }
-  15% { opacity: 0.5; } /* Opacidad realzada para que se luzca detrás de la tarjeta */
-  30% { opacity: 0.5; }
+  15% { opacity: 0.7; } /* Opacidad alta para que se vea claro el collage en el celular */
+  30% { opacity: 0.7; }
   40% { opacity: 0; }
   100% { opacity: 0; }
 }

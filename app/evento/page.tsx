@@ -8,9 +8,11 @@ export default function EventoPage() {
   const router = useRouter();
   const [nombre, setNombre] = useState("");
   const [copiado, setCopiado] = useState(false);
+  const [montado, setMontado] = useState(false);
   const [tiempoRestante, setTiempoRestante] = useState({ dias: 0, horas: 0, minutos: 0, segundos: 0 });
 
   useEffect(() => {
+    setMontado(true);
     const usuario = localStorage.getItem("invitado_boda");
     if (!usuario) router.push("/");
     else setNombre(JSON.parse(usuario).nombre);
@@ -44,7 +46,7 @@ export default function EventoPage() {
 
   return (
     <main className="snap-container">
-      {/* FONDO DE COLLAGE ANIMADO (Asegurate de crear la carpeta public/collage con foto1.jpg a foto4.jpg) */}
+      {/* FONDO DE COLLAGE ANIMADO */}
       <div className="fondo-collage">
         <img src="/collage/foto1.jpg" alt="Boda 1" />
         <img src="/collage/foto2.jpg" alt="Boda 2" />
@@ -69,24 +71,26 @@ export default function EventoPage() {
         <p className="italic" style={{ marginBottom: '15px' }}>"Estamos felices de que formes parte de este momento tan especial. Luego de 10 años de conocernos, compartir con ustedes siempre fue un placer y queremos celebrarlo, no te pierdas los detalles de este evento."</p>
         
         {/* CONTADOR DE TIEMPO */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', margin: '20px 0', background: '#fcfaf7', padding: '10px', borderRadius: '8px', border: '1px solid #d2b48c' }}>
-          <div>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.dias}</span>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Días</span>
+        {montado && (
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', margin: '20px 0', background: 'rgba(255,255,255,0.7)', padding: '10px', borderRadius: '8px', border: '1px solid #d2b48c' }}>
+            <div>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.dias}</span>
+              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Días</span>
+            </div>
+            <div>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.horas}</span>
+              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Hs</span>
+            </div>
+            <div>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.minutos}</span>
+              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Min</span>
+            </div>
+            <div>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.segundos}</span>
+              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Seg</span>
+            </div>
           </div>
-          <div>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.horas}</span>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Hs</span>
-          </div>
-          <div>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.minutos}</span>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Min</span>
-          </div>
-          <div>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.segundos}</span>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Seg</span>
-          </div>
-        </div>
+        )}
 
         <p style={{ marginTop: '10px', fontWeight: 'bold' }}>Invitado/a: {nombre}</p>
       </section>
