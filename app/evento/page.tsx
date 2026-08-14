@@ -8,11 +8,33 @@ export default function EventoPage() {
   const router = useRouter();
   const [nombre, setNombre] = useState("");
   const [copiado, setCopiado] = useState(false);
+  const [tiempoRestante, setTiempoRestante] = useState({ dias: 0, horas: 0, minutos: 0, segundos: 0 });
 
   useEffect(() => {
     const usuario = localStorage.getItem("invitado_boda");
     if (!usuario) router.push("/");
     else setNombre(JSON.parse(usuario).nombre);
+
+    // Cuenta regresiva para el 4 de Diciembre de 2026
+    const fechaBoda = new Date("2026-12-04T00:00:00").getTime();
+
+    const actualizarContador = () => {
+      const ahora = new Date().getTime();
+      const diferencia = fechaBoda - ahora;
+
+      if (diferencia > 0) {
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        setTiempoRestante({ dias, horas, minutos, segundos });
+      }
+    };
+
+    actualizarContador();
+    const intervalo = setInterval(actualizarContador, 1000);
+    return () => clearInterval(intervalo);
   }, [router]);
 
   const confirmarAsistencia = () => {
@@ -33,11 +55,32 @@ export default function EventoPage() {
         <MessageCircle size={28} />
       </a>
 
-      {/* PORTADA */}
+      {/* PORTADA CON CONTADOR */}
       <section className="slide tarjeta-invitacion">
         <h1 className="titulo-serif" style={{ fontSize: '3rem' }}>Demián & Belén</h1>
-        <p className="italic">"Estamos felices de que formes parte de este momento tan especial. Luego de 10 años de conocernos, compartir con ustedes siempre fue un placer y queremos celebrarlo, no te pierdas los detalles de este evento."</p>
-        <p style={{ marginTop: '20px', fontWeight: 'bold' }}>Invitado/a: {nombre}</p>
+        <p className="italic" style={{ marginBottom: '15px' }}>"Estamos felices de que formes parte de este momento tan especial. Luego de 10 años de conocernos, compartir con ustedes siempre fue un placer y queremos celebrarlo, no te pierdas los detalles de este evento."</p>
+        
+        {/* CONTADOR DE TIEMPO */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', margin: '20px 0', background: '#fcfaf7', padding: '10px', borderRadius: '8px', border: '1px solid #d2b48c' }}>
+          <div>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.dias}</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Días</span>
+          </div>
+          <div>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.horas}</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Hs</span>
+          </div>
+          <div>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.minutos}</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Min</span>
+          </div>
+          <div>
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.segundos}</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Seg</span>
+          </div>
+        </div>
+
+        <p style={{ marginTop: '10px', fontWeight: 'bold' }}>Invitado/a: {nombre}</p>
       </section>
 
       {/* CRONOGRAMA Y MAPAS */}
@@ -88,7 +131,7 @@ export default function EventoPage() {
         <h2 className="titulo-serif">Álbum Compartido</h2>
         <p>Queremos ver la fiesta a través de tus ojos. Subí tus fotos y videos en tiempo real durante el evento.</p>
         <a 
-          href="https://photos.app.goo.gl/TcqQRxkoZZvcHDS38" 
+          href="https://photos.app.goo.gl/TU_LINK_DE_GOOGLE_PHOTOS" 
           target="_blank" 
           rel="noopener noreferrer" 
           className="btn-boda" 
