@@ -13,7 +13,15 @@ export default function LoginPage() {
     e.preventDefault();
     setError(false);
 
-    // Buscamos en la tabla de invitados de Supabase el PIN ingresado
+    // BYPASS DE PRUEBA: Si ponés "1234", te deja entrar directo para testear
+    if (codigo === "1234") {
+      const invitadoFalso = { nombre: "Demián (Administrador)" };
+      localStorage.setItem("invitado_boda", JSON.stringify(invitadoFalso));
+      router.push("/evento");
+      return;
+    }
+
+    // Búsqueda real en Supabase
     const { data, error } = await supabase
       .from("invitados")
       .select("*")
@@ -23,7 +31,6 @@ export default function LoginPage() {
     if (error || !data) {
       setError(true);
     } else {
-      // Guardamos los datos del invitado en el navegador y lo mandamos al evento
       localStorage.setItem("invitado_boda", JSON.stringify(data));
       router.push("/evento");
     }
