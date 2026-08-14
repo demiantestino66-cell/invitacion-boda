@@ -44,6 +44,14 @@ export default function EventoPage() {
 
   return (
     <main className="snap-container">
+      {/* FONDO DE COLLAGE ANIMADO (Asegurate de crear la carpeta public/collage con foto1.jpg a foto4.jpg) */}
+      <div className="fondo-collage">
+        <img src="/collage/foto1.jpg" alt="Boda 1" />
+        <img src="/collage/foto2.jpg" alt="Boda 2" />
+        <img src="/collage/foto3.jpg" alt="Boda 3" />
+        <img src="/collage/foto4.jpg" alt="Boda 4" />
+      </div>
+
       {/* Pétalos */}
       <div className="petalos-container">
         {Array.from({ length: 15 }).map((_, i) => (
