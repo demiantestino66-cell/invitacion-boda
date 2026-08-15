@@ -2,44 +2,75 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+
+// ¡Tu lista oficial incrustada en el código! 100% a prueba de fallos.
+const LISTA_INVITADOS = [
+  { nombre: "Familia Urrutia Palermo", plato: "Plato Caliente" },
+  { nombre: "Amorina Testino", plato: "Plato Frio" },
+  { nombre: "Sofia Testino", plato: "Plato Caliente" },
+  { nombre: "Mónica Melo", plato: "Plato Frio" },
+  { nombre: "Iván Urrutia Testino", plato: "Plato Caliente" },
+  { nombre: "Familia Carrizo Villaruel", plato: "Plato Caliente" },
+  { nombre: "Lucia y David", plato: "Plato Frio" },
+  { nombre: "Carola Negra Marcia", plato: "Plato Caliente" },
+  { nombre: "Marisol y Cristian", plato: "Plato Frio" },
+  { nombre: "Agustín Carpintero", plato: "Plato Caliente" },
+  { nombre: "Claudia Melo", plato: "Plato Frio" },
+  { nombre: "Familia Coronel Pena", plato: "Plato Caliente" },
+  { nombre: "Familia Leiva Merino", plato: "Plato Frio" },
+  { nombre: "Julio Leiva", plato: "Plato Caliente" },
+  { nombre: "Lucaioli", plato: "Plato Frio" },
+  { nombre: "Ariel Testino", plato: "Plato Caliente" },
+  { nombre: "Nahuel Testino", plato: "Plato Frio" },
+  { nombre: "Cristina Carrizo", plato: "Plato Caliente" },
+  { nombre: "Fede Aguero", plato: "Plato Frio" },
+  { nombre: "Turco Abdon", plato: "Plato Frio" },
+  { nombre: "Guille Morejon", plato: "Plato Frio" },
+  { nombre: "Familia Amat Falcon", plato: "Plato Caliente" },
+  { nombre: "Marcel Carrizo", plato: "Plato Frio" },
+  { nombre: "Laura y Chino", plato: "Plato Caliente" },
+  { nombre: "Chino y Agos", plato: "Plato Frio" },
+  { nombre: "Franco Carrizo", plato: "Plato Frio" },
+  { nombre: "Vero y Juan", plato: "Plato Caliente" },
+  { nombre: "Sofia Oyarzo", plato: "Plato Frio" },
+  { nombre: "Kary Zalazar", plato: "Plato Frio" },
+  { nombre: "Mica y Elian", plato: "Plato Caliente" },
+  { nombre: "Rocio Lautaro y Fausto", plato: "Plato Frio" },
+  { nombre: "Leti Pereyra", plato: "Plato Caliente" },
+  { nombre: "Ayelen Melo", plato: "A definir" },
+  { nombre: "Demián y Belén", plato: "A definir" },
+  { nombre: "Familia Prueba", plato: "A definir" }
+];
 
 export default function LoginPage() {
   const [nombreIngreso, setNombreIngreso] = useState("");
-  const [error, setError] = useState(false);
-  const [cargando, setCargando] = useState(false);
+  const [mensajeError, setMensajeError] = useState("");
   const router = useRouter();
 
-  const manejarIngreso = async (e: React.FormEvent) => {
+  const manejarIngreso = (e: React.FormEvent) => {
     e.preventDefault();
-    setError(false);
-    setCargando(true);
+    setMensajeError("");
 
-    // Sacamos espacios vacíos al principio o al final por si tipean mal
-    const nombreLimpio = nombreIngreso.trim();
+    const inputLimpio = nombreIngreso.trim().toLowerCase();
 
-    // BYPASS DE PRUEBA: Si escribís "Familia Prueba", te deja entrar directo para testear sin base de datos
-    if (nombreLimpio.toLowerCase() === "familia prueba") {
-      const invitadoFalso = { nombre: "Familia Prueba (Admin)" };
-      localStorage.setItem("invitado_boda", JSON.stringify(invitadoFalso));
-      router.push("/evento");
+    // Evitar que pongan solo 1 o 2 letras
+    if (inputLimpio.length < 3) {
+      setMensajeError("Por favor, escribí un poco más de tu nombre.");
       return;
     }
 
-    // Búsqueda real en Supabase (ilike ignora mayúsculas, minúsculas y busca coincidencias)
-    const { data, error } = await supabase
-      .from("invitados")
-      .select("*")
-      .ilike("nombre", nombreLimpio)
-      .limit(1)
-      .maybeSingle();
+    // Buscador inteligente: se fija si lo que escribió el invitado está dentro de la lista
+    const invitadoEncontrado = LISTA_INVITADOS.find(inv => 
+      inv.nombre.toLowerCase().includes(inputLimpio) || 
+      inputLimpio.includes(inv.nombre.toLowerCase())
+    );
 
-    if (error || !data) {
-      setError(true);
-      setCargando(false);
-    } else {
-      localStorage.setItem("invitado_boda", JSON.stringify(data));
+    if (invitadoEncontrado) {
+      // Si lo encuentra, lo guarda y lo deja pasar al evento
+      localStorage.setItem("invitado_boda", JSON.stringify(invitadoEncontrado));
       router.push("/evento");
+    } else {
+      setMensajeError("No encontramos tu nombre. Revisá si está bien escrito.");
     }
   };
 
@@ -50,27 +81,27 @@ export default function LoginPage() {
         <p style={{ fontStyle: 'italic', marginBottom: '20px' }}>¡Nos casamos!</p>
         
         <form onSubmit={manejarIngreso}>
-          <p style={{ fontSize: '0.95rem', marginBottom: '5px', fontWeight: 'bold' }}>Ingresá tu Nombre y Apellido</p>
+          <p style={{ fontSize: '0.95rem', marginBottom: '5px', fontWeight: 'bold' }}>Ingresá tu Nombre o Apellido</p>
           <p style={{ fontSize: '0.75rem', marginBottom: '15px', opacity: 0.8 }}>(O el nombre de tu grupo familiar)</p>
           
           <input 
             type="text" 
             value={nombreIngreso} 
             onChange={(e) => setNombreIngreso(e.target.value)}
-            placeholder="Ej: Juan Perez"
+            placeholder="Ej: Familia Urrutia"
             style={{ padding: '12px', fontSize: '1.1rem', textAlign: 'center', width: '90%', borderRadius: '6px', border: '1px solid #d2b48c', outline: 'none', marginBottom: '15px' }}
             required
           />
           
-          {error && (
-            <p style={{ color: '#b22222', fontSize: '0.85rem', marginBottom: '15px', padding: '0 10px' }}>
-              No encontramos tu nombre. Revisá que esté bien escrito o contactate con nosotros.
-            </p>
+          {mensajeError && (
+            <div style={{ backgroundColor: '#ffdddd', color: '#b22222', padding: '10px', borderRadius: '5px', marginBottom: '15px', fontSize: '0.85rem' }}>
+              <strong>{mensajeError}</strong>
+            </div>
           )}
 
           <div>
-            <button type="submit" className="btn-boda" disabled={cargando}>
-              {cargando ? "Buscando..." : "Entrar"}
+            <button type="submit" className="btn-boda">
+              Entrar
             </button>
           </div>
         </form>
