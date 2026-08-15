@@ -1,16 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { MessageCircle, Clock, Utensils, Gift, MapPin, Check, Copy, UserCheck, Camera } from "lucide-react";
+import { MessageCircle, Clock, Utensils, Gift, MapPin, Check, Copy, UserCheck, Camera, Music, Pause } from "lucide-react";
 
 export default function EventoPage() {
   const router = useRouter();
   const [nombre, setNombre] = useState("");
-  const [plato, setPlato] = useState("A definir"); // <-- Agregamos el estado del plato
+  const [plato, setPlato] = useState("A definir");
   const [copiado, setCopiado] = useState(false);
   const [montado, setMontado] = useState(false);
   const [tiempoRestante, setTiempoRestante] = useState({ dias: 0, horas: 0, minutos: 0, segundos: 0 });
+  
+  // Estados para la música
+  const [reproduciendo, setReproduciendo] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setMontado(true);
@@ -20,7 +24,6 @@ export default function EventoPage() {
     } else {
       const data = JSON.parse(usuario);
       setNombre(data.nombre);
-      // Si el usuario tiene un plato cargado en la base de datos, lo mostramos
       if (data.plato) {
         setPlato(data.plato);
       }
@@ -53,8 +56,27 @@ export default function EventoPage() {
     window.open(`https://wa.me/5492804556892?text=${encodeURIComponent(mensaje)}`, "_blank");
   };
 
+  const toggleMusica = () => {
+    if (audioRef.current) {
+      if (reproduciendo) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setReproduciendo(!reproduciendo);
+    }
+  };
+
   return (
     <main className="snap-container">
+      {/* ARCHIVO DE AUDIO OCULTO */}
+      <audio ref={audioRef} src="/musica.mp3" loop preload="auto" />
+
+      {/* BOTÓN FLOTANTE DE MÚSICA */}
+      <button onClick={toggleMusica} className="musica-flotante" title="Reproducir música">
+        {reproduciendo ? <Pause size={24} /> : <Music size={24} />}
+      </button>
+
       {/* FONDO DE COLLAGE ANIMADO */}
       <div className="fondo-collage">
         <img src="/collage/foto1.jpg" alt="Boda 1" />
@@ -74,8 +96,8 @@ export default function EventoPage() {
         <MessageCircle size={28} />
       </a>
 
-      {/* PORTADA CON CONTADOR */}
-      <section className="slide tarjeta-invitacion">
+      {/* PORTADA CON CONTADOR (Con clase fade-in) */}
+      <section className="slide tarjeta-invitacion fade-in">
         <h1 className="titulo-serif" style={{ fontSize: '3rem' }}>Demián & Belén</h1>
         <p className="italic" style={{ marginBottom: '15px' }}>"Estamos felices de que formes parte de este momento tan especial. Luego de 10 años de conocernos, compartir con ustedes siempre fue un placer y queremos celebrarlo, no te pierdas los detalles de este evento."</p>
         
@@ -105,7 +127,7 @@ export default function EventoPage() {
       </section>
 
       {/* CRONOGRAMA Y MAPAS */}
-      <section className="slide tarjeta-invitacion">
+      <section className="slide tarjeta-invitacion fade-in">
         <Clock size={40} style={{ color: '#a0522d', margin: '0 auto 10px' }} />
         <h2 className="titulo-serif">Cronograma (4 de Dic)</h2>
         
@@ -119,7 +141,7 @@ export default function EventoPage() {
               rel="noopener noreferrer"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.8rem', color: '#a0522d', marginTop: '4px', textDecoration: 'underline', fontWeight: '600' }}
             >
-              <MapPin size={14} /> Ver ubicación en Google Maps
+              <MapPin size={14} /> Ver ubicación
             </a>
           </div>
 
@@ -132,14 +154,14 @@ export default function EventoPage() {
               rel="noopener noreferrer"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.8rem', color: '#a0522d', marginTop: '4px', textDecoration: 'underline', fontWeight: '600' }}
             >
-              <MapPin size={14} /> Ver ubicación en Google Maps
+              <MapPin size={14} /> Ver ubicación
             </a>
           </div>
         </div>
       </section>
 
       {/* BUFFET */}
-      <section className="slide tarjeta-invitacion">
+      <section className="slide tarjeta-invitacion fade-in">
         <Utensils size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
         <h2 className="titulo-serif">El Buffet</h2>
         <p>Buffet libre con contribución de los invitados a la mesa general. Habrá carne desmechada o flambeada para armar tus sándwiches.</p>
@@ -147,7 +169,7 @@ export default function EventoPage() {
       </section>
 
       {/* ÁLBUM DE FOTOS EN VIVO */}
-      <section className="slide tarjeta-invitacion">
+      <section className="slide tarjeta-invitacion fade-in">
         <Camera size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
         <h2 className="titulo-serif">Álbum Compartido</h2>
         <p>Queremos ver la fiesta a través de tus ojos. Subí tus fotos y videos en tiempo real durante el evento.</p>
@@ -163,7 +185,7 @@ export default function EventoPage() {
       </section>
 
       {/* REGALOS */}
-      <section className="slide tarjeta-invitacion">
+      <section className="slide tarjeta-invitacion fade-in">
         <Gift size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
         <h2 className="titulo-serif">Regalos</h2>
         <p>Lo más importante es tu presencia, por eso preferimos no armar lista ni pretender presentes o que se pongan en gastos, pero aquellos que quieran hacerlo dejamos un alias a disposición.</p>
@@ -176,7 +198,7 @@ export default function EventoPage() {
       </section>
 
       {/* CONFIRMACIÓN */}
-      <section className="slide tarjeta-invitacion">
+      <section className="slide tarjeta-invitacion fade-in">
         <UserCheck size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
         <h2 className="titulo-serif">¿Nos acompañás?</h2>
         <p>Si ese día no podés asistir, no te hagas problema, ¡avisanos!</p>

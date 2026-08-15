@@ -178,3 +178,43 @@ body {
   40% { opacity: 0; }
   100% { opacity: 0; }
 }
+/* BOTÓN FLOTANTE DE MÚSICA */
+.musica-flotante {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #a0522d;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #d2b48c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  z-index: 100;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.musica-flotante:hover {
+  transform: scale(1.1);
+  background-color: #a0522d;
+  color: white;
+}
+
+/* EFECTO DE APARICIÓN SUAVE (FADE IN) PARA LAS TARJETAS */
+.fade-in {
+  animation: aparecerSuave 1.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes aparecerSuave {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
