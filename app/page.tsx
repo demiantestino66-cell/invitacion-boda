@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// ¡Tu lista oficial incrustada en el código! 100% a prueba de fallos.
+// Lista de invitados incrustada
 const LISTA_INVITADOS = [
   { nombre: "Familia Urrutia Palermo", plato: "Plato Caliente" },
   { nombre: "Amorina Testino", plato: "Plato Frio" },
@@ -50,23 +50,19 @@ export default function LoginPage() {
   const manejarIngreso = (e: React.FormEvent) => {
     e.preventDefault();
     setMensajeError("");
-
     const inputLimpio = nombreIngreso.trim().toLowerCase();
 
-    // Evitar que pongan solo 1 o 2 letras
     if (inputLimpio.length < 3) {
       setMensajeError("Por favor, escribí un poco más de tu nombre.");
       return;
     }
 
-    // Buscador inteligente: se fija si lo que escribió el invitado está dentro de la lista
     const invitadoEncontrado = LISTA_INVITADOS.find(inv => 
       inv.nombre.toLowerCase().includes(inputLimpio) || 
       inputLimpio.includes(inv.nombre.toLowerCase())
     );
 
     if (invitadoEncontrado) {
-      // Si lo encuentra, lo guarda y lo deja pasar al evento
       localStorage.setItem("invitado_boda", JSON.stringify(invitadoEncontrado));
       router.push("/evento");
     } else {
@@ -79,31 +75,11 @@ export default function LoginPage() {
       <div className="tarjeta-invitacion" style={{ maxWidth: '400px', width: '100%', textAlign: 'center' }}>
         <h1 className="titulo-serif" style={{ fontSize: '2.5rem', marginBottom: '10px' }}>Demián & Belén</h1>
         <p style={{ fontStyle: 'italic', marginBottom: '20px' }}>¡Nos casamos!</p>
-        
         <form onSubmit={manejarIngreso}>
           <p style={{ fontSize: '0.95rem', marginBottom: '5px', fontWeight: 'bold' }}>Ingresá tu Nombre o Apellido</p>
-          <p style={{ fontSize: '0.75rem', marginBottom: '15px', opacity: 0.8 }}>(O el nombre de tu grupo familiar)</p>
-          
-          <input 
-            type="text" 
-            value={nombreIngreso} 
-            onChange={(e) => setNombreIngreso(e.target.value)}
-            placeholder="Ej: Familia Urrutia"
-            style={{ padding: '12px', fontSize: '1.1rem', textAlign: 'center', width: '90%', borderRadius: '6px', border: '1px solid #d2b48c', outline: 'none', marginBottom: '15px' }}
-            required
-          />
-          
-          {mensajeError && (
-            <div style={{ backgroundColor: '#ffdddd', color: '#b22222', padding: '10px', borderRadius: '5px', marginBottom: '15px', fontSize: '0.85rem' }}>
-              <strong>{mensajeError}</strong>
-            </div>
-          )}
-
-          <div>
-            <button type="submit" className="btn-boda">
-              Entrar
-            </button>
-          </div>
+          <input type="text" value={nombreIngreso} onChange={(e) => setNombreIngreso(e.target.value)} placeholder="Ej: Familia Urrutia" style={{ padding: '12px', fontSize: '1.1rem', textAlign: 'center', width: '90%', borderRadius: '6px', border: '1px solid #d2b48c', outline: 'none', marginBottom: '15px' }} required />
+          {mensajeError && (<div style={{ backgroundColor: '#ffdddd', color: '#b22222', padding: '10px', borderRadius: '5px', marginBottom: '15px', fontSize: '0.85rem' }}><strong>{mensajeError}</strong></div>)}
+          <button type="submit" className="btn-boda">Entrar</button>
         </form>
       </div>
     </main>
