@@ -7,6 +7,7 @@ import { MessageCircle, Clock, Utensils, Gift, MapPin, Check, Copy, UserCheck, C
 export default function EventoPage() {
   const router = useRouter();
   const [nombre, setNombre] = useState("");
+  const [plato, setPlato] = useState("A definir"); // <-- Agregamos el estado del plato
   const [copiado, setCopiado] = useState(false);
   const [montado, setMontado] = useState(false);
   const [tiempoRestante, setTiempoRestante] = useState({ dias: 0, horas: 0, minutos: 0, segundos: 0 });
@@ -14,8 +15,16 @@ export default function EventoPage() {
   useEffect(() => {
     setMontado(true);
     const usuario = localStorage.getItem("invitado_boda");
-    if (!usuario) router.push("/");
-    else setNombre(JSON.parse(usuario).nombre);
+    if (!usuario) {
+      router.push("/");
+    } else {
+      const data = JSON.parse(usuario);
+      setNombre(data.nombre);
+      // Si el usuario tiene un plato cargado en la base de datos, lo mostramos
+      if (data.plato) {
+        setPlato(data.plato);
+      }
+    }
 
     // Cuenta regresiva para el 4 de Diciembre de 2026
     const fechaBoda = new Date("2026-12-04T00:00:00").getTime();
@@ -134,7 +143,7 @@ export default function EventoPage() {
         <Utensils size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
         <h2 className="titulo-serif">El Buffet</h2>
         <p>Buffet libre con contribución de los invitados a la mesa general. Habrá carne desmechada o flambeada para armar tus sándwiches.</p>
-        <p style={{ marginTop: '10px', color: '#a0522d' }}>Tu plato asignado: <strong>Plato Caliente</strong></p>
+        <p style={{ marginTop: '10px', color: '#a0522d' }}>Tu plato asignado: <strong>{plato}</strong></p>
       </section>
 
       {/* ÁLBUM DE FOTOS EN VIVO */}
