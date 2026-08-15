@@ -174,7 +174,7 @@ export default function EventoPage() {
         <h2 className="titulo-serif">Álbum Compartido</h2>
         <p>Queremos ver la fiesta a través de tus ojos. Subí tus fotos y videos en tiempo real durante el evento.</p>
         <a 
-          href="https://photos.app.goo.gl/TU_LINK_DE_GOOGLE_PHOTOS" 
+          href="https://photos.app.goo.gl/TcqQRxkoZZvcHDS38" 
           target="_blank" 
           rel="noopener noreferrer" 
           className="btn-boda" 
