@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Montserrat:wght@300;400;600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 /* Reset general */
 * {
   box-sizing: border-box;
@@ -13,10 +13,13 @@ body {
   padding: 0;
 }
 
-/* Tipografía elegante estilo casamiento */
+/* TIPOGRAFÍA CURSIVA CALIGRÁFICA TIPO WHITE STAR */
 .titulo-serif {
-  font-family: 'Playfair Display', serif;
-  color: #5d4a3a;
+  font-family: 'Great Vibes', 'Alex Brush', 'Dancing Script', cursive !important;
+  letter-spacing: 1px;
+  text-transform: none !important;
+  color: #5c3a21;
+  font-weight: 400;
 }
 
 /* Contenedor principal estilo invitación física (Más transparente para que se luzca el collage) */

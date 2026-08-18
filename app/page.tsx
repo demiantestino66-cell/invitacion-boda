@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// Lista de invitados incrustada
+// Lista oficial con el nombre actualizado
 const LISTA_INVITADOS = [
   { nombre: "Familia Urrutia Palermo", plato: "Plato Caliente" },
   { nombre: "Amorina Testino", plato: "Plato Frio" },
@@ -29,7 +29,7 @@ const LISTA_INVITADOS = [
   { nombre: "Familia Amat Falcon", plato: "Plato Caliente" },
   { nombre: "Marcel Carrizo", plato: "Plato Frio" },
   { nombre: "Laura y Chino", plato: "Plato Caliente" },
-  { nombre: "Chino y Agos", plato: "Plato Frio" },
+  { nombre: "Chino Agos Jonás", plato: "Plato Frio" },
   { nombre: "Franco Carrizo", plato: "Plato Frio" },
   { nombre: "Vero y Juan", plato: "Plato Caliente" },
   { nombre: "Sofia Oyarzo", plato: "Plato Frio" },
@@ -73,7 +73,7 @@ export default function LoginPage() {
   return (
     <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfaf7', color: '#5d4a3a', padding: '20px' }}>
       <div className="tarjeta-invitacion" style={{ maxWidth: '400px', width: '100%', textAlign: 'center' }}>
-        <h1 className="titulo-serif" style={{ fontSize: '2.5rem', marginBottom: '10px' }}>Demián & Belén</h1>
+        <h1 className="titulo-serif" style={{ fontSize: '3rem', marginBottom: '10px' }}>Demián & Belén</h1>
         <p style={{ fontStyle: 'italic', marginBottom: '20px' }}>¡Nos casamos!</p>
         <form onSubmit={manejarIngreso}>
           <p style={{ fontSize: '0.95rem', marginBottom: '5px', fontWeight: 'bold' }}>Ingresá tu Nombre o Apellido</p>

@@ -28,7 +28,7 @@ export default function EventoPage() {
       }
     }
 
-    const fechaBoda = new Date("2026-12-04T00:00:00").getTime();
+    const fechaBoda = new Date("2026-12-04T13:00:00").getTime();
 
     const actualizarContador = () => {
       const ahora = new Date().getTime();
@@ -130,7 +130,7 @@ export default function EventoPage() {
         
         <div style={{ textAlign: 'center', marginTop: '15px', width: '100%', lineHeight: '1.6' }}>
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px' }}><strong>Mediodía</strong></p>
+            <p style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px' }}><strong>13:00 HS</strong></p>
             <p style={{ fontStyle: 'italic', opacity: 0.9 }}>Casamiento Civil</p>
             <p style={{ fontSize: '0.9rem' }}>Calle Ameghino, Trelew</p>
             <a href="https://maps.google.com/?q=Calle+Ameghino+Trelew" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.75rem', color: '#8c6239', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>
@@ -139,7 +139,7 @@ export default function EventoPage() {
           </div>
 
           <div>
-            <p style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px' }}><strong>Noche</strong></p>
+            <p style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px' }}><strong>20:30 HS</strong></p>
             <p style={{ fontStyle: 'italic', opacity: 0.9 }}>Fiesta de Casamiento</p>
             <p style={{ fontSize: '0.9rem' }}>Salón Sitrajuch (Sáenz Peña 315)</p>
             <a href="https://maps.google.com/?q=Saenz+Pena+315+Trelew" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.75rem', color: '#8c6239', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>
