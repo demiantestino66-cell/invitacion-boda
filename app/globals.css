@@ -218,3 +218,51 @@ body {
     transform: translateY(0);
   }
 }
+/* EFECTO PREMIUM: GLASSMORPHISM PARA LAS TARJETAS */
+.tarjeta-invitacion {
+  background: rgba(255, 255, 255, 0.25) !important; /* Súper transparente */
+  backdrop-filter: blur(8px); /* El desenfoque clave para que se lea el texto */
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5) !important; /* Borde de cristal */
+  border-radius: 24px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important; /* Sombra suave para despegar el vidrio */
+  color: #2c1e16 !important; /* Marrón muy oscuro casi negro para contrastar */
+  text-shadow: 0px 1px 4px rgba(255, 255, 255, 0.8); /* Resplandor blanco para legibilidad extrema */
+  padding: 3rem 2rem !important; /* Más aire y respiro */
+}
+
+/* TIPOGRAFÍA ELEGANTE */
+.titulo-serif {
+  font-family: 'Playfair Display', 'Didot', 'Georgia', serif !important;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5c3a21;
+  font-weight: 600;
+}
+
+/* SEPARADOR MINIMALISTA */
+.separador-elegante {
+  width: 40px;
+  height: 1px;
+  background-color: #8c6239;
+  margin: 15px auto 20px auto;
+  opacity: 0.5;
+}
+
+/* CONTADOR CON ESTILO BURBUJA DE CRISTAL */
+.contador-premium {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 25px 0;
+}
+
+.contador-item {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 12px 10px;
+  min-width: 75px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(5px);
+}

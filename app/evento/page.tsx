@@ -12,7 +12,6 @@ export default function EventoPage() {
   const [montado, setMontado] = useState(false);
   const [tiempoRestante, setTiempoRestante] = useState({ dias: 0, horas: 0, minutos: 0, segundos: 0 });
   
-  // Estados para la música
   const [reproduciendo, setReproduciendo] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -29,7 +28,6 @@ export default function EventoPage() {
       }
     }
 
-    // Cuenta regresiva para el 4 de Diciembre de 2026
     const fechaBoda = new Date("2026-12-04T00:00:00").getTime();
 
     const actualizarContador = () => {
@@ -67,17 +65,17 @@ export default function EventoPage() {
     }
   };
 
+  const IconStyle = { color: '#8c6239', margin: '0 auto 5px' };
+
   return (
     <main className="snap-container">
-      {/* ARCHIVO DE AUDIO OCULTO */}
       <audio ref={audioRef} src="/musica.mp3" loop preload="auto" />
 
-      {/* BOTÓN FLOTANTE DE MÚSICA */}
       <button onClick={toggleMusica} className="musica-flotante" title="Reproducir música">
-        {reproduciendo ? <Pause size={24} /> : <Music size={24} />}
+        {reproduciendo ? <Pause strokeWidth={1.5} size={24} /> : <Music strokeWidth={1.5} size={24} />}
       </button>
 
-      {/* FONDO DE COLLAGE ANIMADO */}
+      {/* FONDO DE COLLAGE */}
       <div className="fondo-collage">
         <img src="/collage/foto1.jpg" alt="Boda 1" />
         <img src="/collage/foto2.jpg" alt="Boda 2" />
@@ -85,7 +83,6 @@ export default function EventoPage() {
         <img src="/collage/foto4.jpg" alt="Boda 4" />
       </div>
 
-      {/* Pétalos */}
       <div className="petalos-container">
         {Array.from({ length: 15 }).map((_, i) => (
           <div key={i} className="petalo" style={{ left: `${Math.random() * 100}%`, animationDuration: `${Math.random() * 5 + 5}s`, animationDelay: `${Math.random() * 5}s` }} />
@@ -93,68 +90,60 @@ export default function EventoPage() {
       </div>
 
       <a href="https://wa.me/5492804556892" target="_blank" rel="noopener noreferrer" className="whatsapp-flotante" title="Consultar con Belén">
-        <MessageCircle size={28} />
+        <MessageCircle strokeWidth={1.5} size={28} />
       </a>
 
-      {/* PORTADA CON CONTADOR (Con clase fade-in) */}
+      {/* PORTADA */}
       <section className="slide tarjeta-invitacion fade-in">
-        <h1 className="titulo-serif" style={{ fontSize: '3rem' }}>Demián & Belén</h1>
-        <p className="italic" style={{ marginBottom: '15px' }}>"Estamos felices de que formes parte de este momento tan especial. Luego de 10 años de conocernos, compartir con ustedes siempre fue un placer y queremos celebrarlo, no te pierdas los detalles de este evento."</p>
+        <h1 className="titulo-serif" style={{ fontSize: '3.2rem', lineHeight: '1.1' }}>Demián<br/><span style={{ fontSize: '1.5rem', fontStyle: 'italic', textTransform: 'lowercase' }}>&</span><br/>Belén</h1>
+        <div className="separador-elegante"></div>
+        <p className="italic" style={{ fontSize: '1.05rem', lineHeight: '1.6' }}>"Estamos felices de que formes parte de este momento tan especial. Luego de 10 años de conocernos, compartir con ustedes siempre fue un placer y queremos celebrarlo."</p>
         
-        {/* CONTADOR DE TIEMPO */}
         {montado && (
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', margin: '20px 0', background: 'rgba(255,255,255,0.7)', padding: '10px', borderRadius: '8px', border: '1px solid #d2b48c' }}>
-            <div>
-              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.dias}</span>
-              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Días</span>
+          <div className="contador-premium">
+            <div className="contador-item">
+              <span style={{ fontSize: '1.6rem', fontWeight: '300', display: 'block' }}>{tiempoRestante.dias}</span>
+              <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Días</span>
             </div>
-            <div>
-              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.horas}</span>
-              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Hs</span>
+            <div className="contador-item">
+              <span style={{ fontSize: '1.6rem', fontWeight: '300', display: 'block' }}>{tiempoRestante.horas}</span>
+              <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Hs</span>
             </div>
-            <div>
-              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.minutos}</span>
-              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Min</span>
+            <div className="contador-item">
+              <span style={{ fontSize: '1.6rem', fontWeight: '300', display: 'block' }}>{tiempoRestante.minutos}</span>
+              <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Min</span>
             </div>
-            <div>
-              <span style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'block' }}>{tiempoRestante.segundos}</span>
-              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>Seg</span>
+            <div className="contador-item">
+              <span style={{ fontSize: '1.6rem', fontWeight: '300', display: 'block' }}>{tiempoRestante.segundos}</span>
+              <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Seg</span>
             </div>
           </div>
         )}
-
-        <p style={{ marginTop: '10px', fontWeight: 'bold' }}>Invitado/a: {nombre}</p>
+        <p style={{ marginTop: '10px', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Invitado/a: <strong>{nombre}</strong></p>
       </section>
 
-      {/* CRONOGRAMA Y MAPAS */}
+      {/* CRONOGRAMA */}
       <section className="slide tarjeta-invitacion fade-in">
-        <Clock size={40} style={{ color: '#a0522d', margin: '0 auto 10px' }} />
-        <h2 className="titulo-serif">Cronograma (4 de Dic)</h2>
+        <Clock strokeWidth={1.2} size={42} style={IconStyle} />
+        <h2 className="titulo-serif" style={{ fontSize: '1.8rem' }}>Cronograma</h2>
+        <div className="separador-elegante"></div>
         
-        <div style={{ textAlign: 'left', marginTop: '15px', width: '100%' }}>
-          <div style={{ marginBottom: '15px' }}>
-            <p><strong>Mediodía:</strong> Casamiento Civil</p>
-            <p style={{ fontSize: '0.85rem', opacity: 0.8 }}>Calle Ameghino, Trelew</p>
-            <a 
-              href="https://maps.google.com/?q=Calle+Ameghino+Trelew" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.8rem', color: '#a0522d', marginTop: '4px', textDecoration: 'underline', fontWeight: '600' }}
-            >
-              <MapPin size={14} /> Ver ubicación
+        <div style={{ textAlign: 'center', marginTop: '15px', width: '100%', lineHeight: '1.6' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <p style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px' }}><strong>Mediodía</strong></p>
+            <p style={{ fontStyle: 'italic', opacity: 0.9 }}>Casamiento Civil</p>
+            <p style={{ fontSize: '0.9rem' }}>Calle Ameghino, Trelew</p>
+            <a href="https://maps.google.com/?q=Calle+Ameghino+Trelew" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.75rem', color: '#8c6239', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>
+              <MapPin size={12} /> Ver Mapa
             </a>
           </div>
 
           <div>
-            <p><strong>Noche:</strong> Fiesta de Casamiento</p>
-            <p style={{ fontSize: '0.85rem', opacity: 0.8 }}>Salón Sitrajuch (Sáenz Peña 315)</p>
-            <a 
-              href="https://maps.google.com/?q=Saenz+Pena+315+Trelew" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.8rem', color: '#a0522d', marginTop: '4px', textDecoration: 'underline', fontWeight: '600' }}
-            >
-              <MapPin size={14} /> Ver ubicación
+            <p style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px' }}><strong>Noche</strong></p>
+            <p style={{ fontStyle: 'italic', opacity: 0.9 }}>Fiesta de Casamiento</p>
+            <p style={{ fontSize: '0.9rem' }}>Salón Sitrajuch (Sáenz Peña 315)</p>
+            <a href="https://maps.google.com/?q=Saenz+Pena+315+Trelew" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.75rem', color: '#8c6239', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>
+              <MapPin size={12} /> Ver Mapa
             </a>
           </div>
         </div>
@@ -162,61 +151,65 @@ export default function EventoPage() {
 
       {/* BUFFET */}
       <section className="slide tarjeta-invitacion fade-in">
-        <Utensils size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
-        <h2 className="titulo-serif">El Buffet</h2>
-        <p>Buffet libre con contribución de los invitados a la mesa general. Habrá carne desmechada o flambeada para armar tus sándwiches.</p>
-        <p style={{ marginTop: '10px', color: '#a0522d' }}>Tu plato asignado: <strong>{plato}</strong></p>
+        <Utensils strokeWidth={1.2} size={42} style={IconStyle} />
+        <h2 className="titulo-serif" style={{ fontSize: '1.8rem' }}>El Buffet</h2>
+        <div className="separador-elegante"></div>
+        <p style={{ fontSize: '1.05rem', lineHeight: '1.6' }}>Buffet libre con contribución de los invitados a la mesa general. Habrá carne desmechada o flambeada para armar tus sándwiches.</p>
+        <div style={{ marginTop: '20px', padding: '10px', background: 'rgba(255,255,255,0.4)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.5)' }}>
+          <p style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Tu plato asignado</p>
+          <p style={{ fontSize: '1.2rem', color: '#5c3a21', fontWeight: 'bold' }}>{plato}</p>
+        </div>
       </section>
 
-      {/* BEBIDAS (Nueva sección) */}
+      {/* BEBIDAS */}
       <section className="slide tarjeta-invitacion fade-in">
-        <Wine size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
-        <h2 className="titulo-serif">Bebida</h2>
-        <p>Vamos a contar con Cerveza y Vino para la cena y el baile. Podes llevar tu conservadora con la bebida que prefieras.</p>
+        <Wine strokeWidth={1.2} size={42} style={IconStyle} />
+        <h2 className="titulo-serif" style={{ fontSize: '1.8rem' }}>Bebida</h2>
+        <div className="separador-elegante"></div>
+        <p style={{ fontSize: '1.05rem', lineHeight: '1.6' }}>Vamos a contar con Cerveza y Vino para la cena y el baile.</p>
+        <p style={{ fontSize: '1.05rem', lineHeight: '1.6', marginTop: '10px' }}>Podés llevar tu conservadora con la bebida que prefieras.</p>
       </section>
 
-      {/* VESTIMENTA (Nueva sección) */}
+      {/* VESTIMENTA */}
       <section className="slide tarjeta-invitacion fade-in">
-        <Shirt size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
-        <h2 className="titulo-serif">Vestimenta o Temática</h2>
-        <p>Ese día podes ir vestido como más cómodo te sientas.</p>
+        <Shirt strokeWidth={1.2} size={42} style={IconStyle} />
+        <h2 className="titulo-serif" style={{ fontSize: '1.8rem' }}>Vestimenta</h2>
+        <div className="separador-elegante"></div>
+        <p style={{ fontSize: '1.05rem', lineHeight: '1.6', fontStyle: 'italic' }}>"Ese día podés ir vestido como más cómodo te sientas."</p>
       </section>
 
-      {/* ÁLBUM DE FOTOS EN VIVO */}
+      {/* ÁLBUM DE FOTOS */}
       <section className="slide tarjeta-invitacion fade-in">
-        <Camera size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
-        <h2 className="titulo-serif">Álbum Compartido</h2>
-        <p>Queremos ver la fiesta a través de tus ojos. Subí tus fotos y videos en tiempo real durante el evento.</p>
-        <a 
-          href="https://photos.app.goo.gl/TcqQRxkoZZvcHDS38" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="btn-boda" 
-          style={{ display: 'inline-block', textDecoration: 'none', marginTop: '20px', lineHeight: 'normal' }}
-        >
-          Subir Fotos / Videos
+        <Camera strokeWidth={1.2} size={42} style={IconStyle} />
+        <h2 className="titulo-serif" style={{ fontSize: '1.8rem' }}>Álbum Vivo</h2>
+        <div className="separador-elegante"></div>
+        <p style={{ fontSize: '1.05rem', lineHeight: '1.6' }}>Queremos ver la fiesta a través de tus ojos. Subí tus fotos y videos en tiempo real durante el evento.</p>
+        <a href="https://photos.app.goo.gl/TcqQRxkoZZvcHDS38" target="_blank" rel="noopener noreferrer" className="btn-boda" style={{ display: 'inline-block', textDecoration: 'none', marginTop: '20px' }}>
+          Subir Fotos al Álbum
         </a>
       </section>
 
       {/* REGALOS */}
       <section className="slide tarjeta-invitacion fade-in">
-        <Gift size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
-        <h2 className="titulo-serif">Regalos</h2>
-        <p>Lo más importante es tu presencia, por eso preferimos no armar lista ni pretender presentes o que se pongan en gastos, pero aquellos que quieran hacerlo dejamos un alias a disposición.</p>
-        <div style={{ background: '#fff', border: '1px solid #d2b48c', padding: '10px', marginTop: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', borderRadius: '6px' }}>
-          <strong style={{ fontFamily: 'monospace' }}>demiantestino1988</strong>
-          <button onClick={() => { navigator.clipboard.writeText("demiantestino1988"); setCopiado(true); setTimeout(() => setCopiado(false), 2000); }} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-            {copiado ? <Check color="green" size={18} /> : <Copy size={18} />}
+        <Gift strokeWidth={1.2} size={42} style={IconStyle} />
+        <h2 className="titulo-serif" style={{ fontSize: '1.8rem' }}>Regalos</h2>
+        <div className="separador-elegante"></div>
+        <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>Lo más importante es tu presencia, por eso preferimos no armar lista ni pretender presentes o que se pongan en gastos. Aquellos que quieran hacerlo, dejamos un alias a disposición.</p>
+        <div style={{ background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.6)', padding: '12px', marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', borderRadius: '12px', backdropFilter: 'blur(5px)' }}>
+          <strong style={{ fontFamily: 'monospace', fontSize: '1.1rem', letterSpacing: '1px' }}>demiantestino1988</strong>
+          <button onClick={() => { navigator.clipboard.writeText("demiantestino1988"); setCopiado(true); setTimeout(() => setCopiado(false), 2000); }} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+            {copiado ? <Check color="green" strokeWidth={2} size={20} /> : <Copy strokeWidth={1.5} size={20} />}
           </button>
         </div>
       </section>
 
       {/* CONFIRMACIÓN */}
       <section className="slide tarjeta-invitacion fade-in">
-        <UserCheck size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
-        <h2 className="titulo-serif">¿Nos acompañás?</h2>
-        <p>Si ese día no podés asistir, no te hagas problema, ¡avisanos!</p>
-        <button onClick={confirmarAsistencia} className="btn-boda" style={{ marginTop: '20px' }}>Confirmar Asistencia</button>
+        <UserCheck strokeWidth={1.2} size={42} style={IconStyle} />
+        <h2 className="titulo-serif" style={{ fontSize: '1.8rem' }}>¿Nos acompañás?</h2>
+        <div className="separador-elegante"></div>
+        <p style={{ fontSize: '1.05rem', lineHeight: '1.6' }}>Si ese día no podés asistir, no te hagas problema, ¡avisanos!</p>
+        <button onClick={confirmarAsistencia} className="btn-boda" style={{ marginTop: '25px', padding: '15px 30px', fontSize: '1.1rem' }}>Confirmar Asistencia</button>
       </section>
     </main>
   );
