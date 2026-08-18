@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// Lista oficial con el nombre actualizado
+// Lista oficial actualizada con todos los invitados
 const LISTA_INVITADOS = [
   { nombre: "Familia Urrutia Palermo", plato: "Plato Caliente" },
   { nombre: "Amorina Testino", plato: "Plato Frio" },
@@ -39,7 +39,8 @@ const LISTA_INVITADOS = [
   { nombre: "Leti Pereyra", plato: "Plato Caliente" },
   { nombre: "Ayelen Melo", plato: "A definir" },
   { nombre: "Demián y Belén", plato: "A definir" },
-  { nombre: "Familia Prueba", plato: "A definir" }
+  { nombre: "Familia Prueba", plato: "A definir" },
+  { nombre: "Marce Diaz y familia", plato: "A definir" }
 ];
 
 export default function LoginPage() {
