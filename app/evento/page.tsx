@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { MessageCircle, Clock, Utensils, Gift, MapPin, Check, Copy, UserCheck, Camera, Music, Pause } from "lucide-react";
+import { MessageCircle, Clock, Utensils, Gift, MapPin, Check, Copy, UserCheck, Camera, Music, Pause, Wine, Shirt } from "lucide-react";
 
 export default function EventoPage() {
   const router = useRouter();
@@ -166,6 +166,20 @@ export default function EventoPage() {
         <h2 className="titulo-serif">El Buffet</h2>
         <p>Buffet libre con contribución de los invitados a la mesa general. Habrá carne desmechada o flambeada para armar tus sándwiches.</p>
         <p style={{ marginTop: '10px', color: '#a0522d' }}>Tu plato asignado: <strong>{plato}</strong></p>
+      </section>
+
+      {/* BEBIDAS (Nueva sección) */}
+      <section className="slide tarjeta-invitacion fade-in">
+        <Wine size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
+        <h2 className="titulo-serif">Bebida</h2>
+        <p>Vamos a contar con Cerveza y Vino para la cena y el baile. Podes llevar tu conservadora con la bebida que prefieras.</p>
+      </section>
+
+      {/* VESTIMENTA (Nueva sección) */}
+      <section className="slide tarjeta-invitacion fade-in">
+        <Shirt size={40} style={{ color: '#a0522d', margin: '0 auto 15px' }} />
+        <h2 className="titulo-serif">Vestimenta o Temática</h2>
+        <p>Ese día podes ir vestido como más cómodo te sientas.</p>
       </section>
 
       {/* ÁLBUM DE FOTOS EN VIVO */}
