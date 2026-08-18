@@ -95,9 +95,13 @@ export default function EventoPage() {
 
       {/* PORTADA */}
       <section className="slide tarjeta-invitacion fade-in">
-        <h1 className="titulo-serif" style={{ fontSize: '3.2rem', lineHeight: '1.1' }}>Demián<br/><span style={{ fontSize: '1.5rem', fontStyle: 'italic', textTransform: 'lowercase' }}>&</span><br/>Belén</h1>
+        <h1 className="titulo-serif" style={{ fontSize: '3.8rem', lineHeight: '1.2' }}>
+          Demián y Belén
+        </h1>
         <div className="separador-elegante"></div>
-        <p className="italic" style={{ fontSize: '1.05rem', lineHeight: '1.6' }}>"Estamos felices de que formes parte de este momento tan especial. Luego de 10 años de conocernos, compartir con ustedes siempre fue un placer y queremos celebrarlo."</p>
+        <p className="italic" style={{ fontSize: '1.05rem', lineHeight: '1.6' }}>
+          "Estamos felices de que formes parte de este momento tan especial. Luego de 10 años de conocernos, compartir con ustedes siempre fue un placer y queremos celebrarlo."
+        </p>
         
         {montado && (
           <div className="contador-premium">
